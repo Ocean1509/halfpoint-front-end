@@ -25,7 +25,7 @@ export default {
     }
 
     if (title) {
-      vnodes.push(<span slot='title'>{(title)}</span>)
+      vnodes.push(<span slot='title' class='strongtitle'>{(title)}</span>)
     }
     return vnodes
   }
@@ -37,5 +37,8 @@ export default {
   color: currentColor;
   width: 1em;
   height: 1em;
+}
+.strongtitle {
+  font-weight: bold;
 }
 </style>

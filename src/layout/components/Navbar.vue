@@ -7,23 +7,12 @@
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
+          <img class="user-avatar" src="../../assets/user.png">
           <i class="el-icon-caret-bottom" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
           <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
+            <span style="display:block;">登出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -41,6 +30,10 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+    }
+  },
   computed: {
     ...mapGetters([
       'sidebar',
@@ -52,7 +45,8 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      // await this.$store.dispatch('user/logout')
+      localStorage.removeItem('bego')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }
@@ -60,6 +54,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// .user-avatar{
+
+// }
 .navbar {
   height: 50px;
   overflow: hidden;
@@ -120,9 +117,10 @@ export default {
 
         .user-avatar {
           cursor: pointer;
-          width: 40px;
-          height: 40px;
+          width: 28px;
+          height: 28px;
           border-radius: 10px;
+          margin-top: 10px;
         }
 
         .el-icon-caret-bottom {

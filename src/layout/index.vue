@@ -6,6 +6,24 @@
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
       </div>
+      <el-card v-if="route === 'overview'" class="box-card total-container">
+        <p class="box-card-title">
+          <span>当前规模:  <span class="color-rise">{{ formate(total) }}</span></span>
+          <span>今日盈亏:  <span class="color-rise">{{ formate(rReturn) }}</span></span>
+        </p>
+        <div class="box-card-container">
+          <span>自营：<span class="color-rise">{{ formate(selfrunAccount) }}</span></span>
+          <span>产品：<span class="color-rise">{{ formate(fundAccount) }}</span></span>
+          <span>MOM：<span class="color-rise">{{ formate(momAccount) }}</span></span>
+        </div>
+      </el-card>
+
+      <div v-else-if="route === 'config'">
+        <strategy-config />
+      </div>
+      <div v-else-if="route === 'contract'">
+        <contract-config />
+      </div>
       <app-main />
     </div>
   </div>
@@ -14,13 +32,18 @@
 <script>
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
+import { formatNumber } from 'accounting'
+import StrategyConfig from '@/views/overview/strategyConfig.vue'
+import ContractConfig from '@/views/overview/contractConfig.vue'
 
 export default {
   name: 'Layout',
   components: {
     Navbar,
     Sidebar,
-    AppMain
+    AppMain,
+    StrategyConfig,
+    ContractConfig
   },
   mixins: [ResizeMixin],
   computed: {
@@ -40,11 +63,56 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
+    },
+    route() {
+      return this.$route.name
+    },
+    accounts() {
+      return this.$store.state.common.account
+    },
+    selfrunAccount() {
+      return this.accounts['SELFRUN'].reduce((pre, current) => {
+        return pre + (current.total || 0)
+      }, 0)
+    },
+    selfrunReturn() {
+      return this.accounts['SELFRUN'].reduce((pre, current) => {
+        return pre + (current.r_return || 0)
+      }, 0)
+    },
+    fundAccount() {
+      return this.accounts['FUND'].reduce((pre, current) => {
+        return pre + (current.total || 0)
+      }, 0)
+    },
+    fundAccountReturn() {
+      return this.accounts['FUND'].reduce((pre, current) => {
+        return pre + (current.r_return || 0)
+      }, 0)
+    },
+    momAccount() {
+      return this.accounts['MOM'].reduce((pre, current) => {
+        return pre + (current.total || 0)
+      }, 0)
+    },
+    momAccountReturn() {
+      return this.accounts['MOM'].reduce((pre, current) => {
+        return pre + (current.r_return || 0)
+      }, 0)
+    },
+    total() {
+      return this.selfrunAccount + this.fundAccount + this.momAccount
+    },
+    rReturn() {
+      return this.selfrunReturn + this.fundAccountReturn + this.momAccountReturn
     }
   },
   methods: {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+    },
+    formate(v) {
+      return formatNumber(v)
     }
   }
 }
@@ -89,5 +157,33 @@ export default {
 
   .mobile .fixed-header {
     width: 100%;
+  }
+
+  .total-container{
+    position: absolute;
+    width: 800px;
+    font-size: 18px;
+    top: 120px;
+    left: 40px;
+    // color: #606266;
+    // border: 1px solid grey;
+    // padding: 14px;
+    // border-radius: 3px;
+    .box-card-title {
+      margin:0;
+      padding: 30px 0;
+      border-bottom: 1px solid #ddd;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-around;
+    }
+    .box-card-container{
+      display: flex;
+      flex-direction: row;
+      padding: 30px 0;
+      justify-content: space-around;
+      font-weight: bold;
+      font-size: 16px;
+    }
   }
 </style>

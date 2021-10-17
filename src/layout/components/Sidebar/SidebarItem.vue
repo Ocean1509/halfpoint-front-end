@@ -37,7 +37,7 @@
         class="nest-menu"
       /> -->
       <el-menu-item-group v-for="child in item.children" :key="child.path" class="el-menu-item-x">
-        <span slot="title" style="cursor:pointer;display:block" @click="toRoute(child.name)">{{child.name}}</span>
+        <span slot="title" style="cursor:pointer;display:block" @click="toRoute(child.name)">{{getTitle(child.name)}}</span>
         <el-menu-item v-for="c in child.children" :key="c.path" :index="resolvePath(c.path)" :class="{'submenu-title-noDropdown':!isNest}" class="el-menu-item-x-item" @click="toRoute(c.path)">
           <item :title="c.meta.title" />
         </el-menu-item>
@@ -83,6 +83,18 @@ export default {
   methods: {
     toRoute(r) {
       this.$router.push({ name: r })
+    },
+    getTitle(t) {
+      switch (t) {
+        case 'SELFRUN':
+          return '自营'
+        case 'FUND':
+          return '产品'
+        case 'BACKTEST':
+          return '回测'
+        default:
+          return t
+      }
     },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {

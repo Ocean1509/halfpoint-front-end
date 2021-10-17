@@ -46,7 +46,9 @@ export default {
     },
     async logout() {
       // await this.$store.dispatch('user/logout')
-      localStorage.removeItem('bego')
+      // localStorage.removeItem('bego')
+      sessionStorage.removeItem('bego')
+      sessionStorage.removeItem('begoa')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }

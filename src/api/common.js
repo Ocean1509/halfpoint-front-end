@@ -1,12 +1,15 @@
 import request from '@/utils/request'
 
+const baseUrl = window.baseUrl
+
+console.log(baseUrl)
 // 获取账户列表
 export function accountLists(data) {
   return request({
     url: '/accounts',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -15,7 +18,7 @@ export function login(data) {
   return request({
     url: '/login',
     method: 'post',
-    baseURL: process.env.VUE_APP_REMOTE_API,
+    baseURL: baseUrl,
     data
   })
 }
@@ -26,7 +29,7 @@ export function getStrategyConf(data) {
     url: '/strategyConfig',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -35,7 +38,7 @@ export function getStrategyList() {
   return request({
     url: '/strategylist',
     method: 'get',
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -45,7 +48,7 @@ export function updateStrategyConf(data) {
     url: '/strategyConfig',
     method: 'post',
     data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -54,7 +57,7 @@ export function getContractConfig() {
   return request({
     url: '/contractconf',
     method: 'get',
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -64,7 +67,7 @@ export function updateContractConfig(data) {
     url: '/contractconf',
     method: 'post',
     data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -74,7 +77,7 @@ export function getDayStats(data) {
     url: '/daystats',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -84,7 +87,7 @@ export function getCommsProfit(data) {
     url: '/commsProfit',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -94,7 +97,7 @@ export function getPs(data) {
     url: '/ps',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 // 回测仓位
@@ -103,7 +106,7 @@ export function getPshistorybasktest(data) {
     url: '/pshistorybasktest',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
@@ -113,19 +116,30 @@ export function getPsTimeStamp(data) {
     url: '/getPsTimeStamp',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
 
-// 获取历史仓位
+// 获取历史仓位 除回测
 export function getHistory(data) {
   return request({
     url: '/pshistory',
     method: 'get',
     params: data,
-    baseURL: process.env.VUE_APP_REMOTE_API
+    baseURL: baseUrl
   })
 }
+
+// 获取历史仓位 回测
+export function getBacktestHistory(data) {
+  return request({
+    url: '/pshistory-backtest',
+    method: 'get',
+    params: data,
+    baseURL: baseUrl
+  })
+}
+
 // export function getInfo(token) {
 //   return request({
 //     url: '/vue-admin-template/user/info',

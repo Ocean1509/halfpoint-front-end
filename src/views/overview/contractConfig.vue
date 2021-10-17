@@ -5,7 +5,6 @@
       <el-table
         :data="configlists"
         border
-        height="800"
         style="width: 100%"
         class="account-table"
       >
@@ -19,7 +18,7 @@
             <span>{{ scope.row[head.key] || "" }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="isAdmin">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"
               >修改</el-button
@@ -53,10 +52,9 @@
 </template>
 <script>
 import {
-  getContractConfig, updateContractConfig
+  getContractConfig, updateContractConfig, login
 } from "@/api/common";
 import { MessageBox, Message } from 'element-ui'
-
 export default {
   name: "contract-config",
   methods: {
@@ -137,10 +135,14 @@ export default {
       }],
       form: {},
       dialogVisible: false,
+      isAdmin: false
     };
   },
   async mounted() {
+    // this.isAdmin = localStorage.getItem('begoa') == '1' ? true : false
+    this.isAdmin = sessionStorage.getItem('begoa') == '1' ? true : false
     let res = await getContractConfig();
+
     this.configlists = res;
   },
 };
@@ -155,7 +157,7 @@ export default {
   margin-bottom: 40px;
 }
 .account-table {
-  max-height: 800px;
+  // max-height: 800px;
   overflow-y: auto;
 }
 .account-table .has-gutter {

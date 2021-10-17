@@ -112,14 +112,21 @@ export default {
       // 过期时间 7天
       let expiredT = (Date.now() + 7 * 24 * 60 * 60 * 1000)
 
-      localStorage.setItem(key, expiredT)
+      // localStorage.setItem(key, expiredT)
+      sessionStorage.setItem(key, expiredT)
+    },
+    // 设置是否是管理员
+    setAdmdinStorage(res) {
+      sessionStorage.setItem('begoa', res)
+      // localStorage.setItem('begoa', res)
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
+          this.$store.dispatch('user/login', this.loginForm).then((res) => {
             this.setLocalstorage(this.loginForm)
+            this.setAdmdinStorage(res.admin)
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {

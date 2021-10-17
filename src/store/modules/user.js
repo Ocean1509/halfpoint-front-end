@@ -40,7 +40,7 @@ const actions = {
         // setToken(data.token)
         // resolve()
         if (response.success) {
-          resolve()
+          resolve(response)
         } else {
           reject()
         }

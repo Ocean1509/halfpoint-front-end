@@ -127,7 +127,7 @@ export default {
       this.updateAccount()
       this.timer = setInterval(() => {
         this.updateAccount()
-      }, 5000)
+      }, 30000)
     } catch (error) {
       console.log(error)
     }

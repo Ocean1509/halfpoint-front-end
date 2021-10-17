@@ -8,7 +8,7 @@
         style="width: 100%"
         class="account-table"
       >
-        <el-table-column prop="account" label="账户"> </el-table-column>
+        <el-table-column prop="account" label="账户" width="180"> </el-table-column>
         <el-table-column
           :prop="head"
           :label="head"
@@ -19,7 +19,7 @@
             <span>{{ scope.row[head] || 0 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="isAdmin">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"
               >修改</el-button
@@ -42,7 +42,7 @@
             <span>{{ scope.row[head] || 0 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="isAdmin">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"
               >修改</el-button
@@ -65,7 +65,7 @@
             <span>{{ scope.row[head] || 0 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="isAdmin">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small"
               >修改</el-button
@@ -218,7 +218,11 @@ export default {
     },
     submit() {
       console.log(this.form);
-      updateStrategyConf({ data: this.form, trade_id: this.trade_id })
+      let year = new Date().getFullYear();
+      let month = new Date().getMonth() + 1;
+      let date = new Date().getDate();
+
+      updateStrategyConf({ data: this.form, trade_id: this.trade_id, date: `${year}-${month}-${date}` })
         .then((res) => {
           if (res.success) {
             this.$message({
@@ -249,9 +253,12 @@ export default {
       headconfig: [],
       form: {},
       dialogVisible: false,
+      isAdmin: false
     };
   },
   async mounted() {
+    this.isAdmin = sessionStorage.getItem('begoa') == '1' ? true : false
+    // this.isAdmin = localStorage.getItem('begoa') == '1' ? true : false
     await this.updateAccount();
     let res = await getStrategyList();
     this.headconfig = res;

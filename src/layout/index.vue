@@ -9,7 +9,7 @@
       <el-card v-if="route === 'overview'" class="box-card total-container">
         <p class="box-card-title">
           <span>当前规模:  <span class="color-rise">{{ formate(total) }}</span></span>
-          <span>今日盈亏:  <span class="color-rise">{{ formate(rReturn) }}</span></span>
+          <span>实时盈亏:  <span class="color-rise">{{ formate(rReturn) }}</span></span>
         </p>
         <div class="box-card-container">
           <span>自营：<span class="color-rise">{{ formate(selfrunAccount) }}</span></span>
@@ -163,7 +163,7 @@ export default {
     position: absolute;
     width: 800px;
     font-size: 18px;
-    top: 120px;
+    top: 90px;
     left: 40px;
     // color: #606266;
     // border: 1px solid grey;

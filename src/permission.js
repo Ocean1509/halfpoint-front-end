@@ -23,9 +23,11 @@ router.beforeEach(async(to, from, next) => {
     return
   }
 
-  const expiredT = localStorage.getItem('bego')
+  // const expiredT = localStorage.getItem('bego')
+  const expiredT = sessionStorage.getItem('bego')
 
-  if (!expiredT || Number(expiredT) < Date.now()) {
+  // if (!expiredT || Number(expiredT) < Date.now()) {
+  if (!expiredT) {
     next(`/login?redirect=${to.path}`)
     NProgress.done()
   }
